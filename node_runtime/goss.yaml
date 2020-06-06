@@ -1,0 +1,73 @@
+group:
+  node:
+    exists: true
+    gid: 1000
+    skip: false
+
+user:
+  node:
+    exists: true
+    uid: 1000
+    gid: 1000
+    groups:
+    - node
+    home: /home/node
+    shell: /bin/bash
+    skip: false
+
+command:
+  container_user:
+    exec: "id -un" 
+    exit-status: 0
+    stdout:
+    - node
+    skip: false
+  container_group:
+    exec: "id -gn" 
+    exit-status: 0
+    stdout:
+    - node
+    skip: false
+  container_pwd:
+    exec: "pwd" 
+    exit-status: 0
+    stdout:
+    - /home/node
+    skip: false
+
+package:
+  curl:
+    installed: true
+    skip: false
+
+file:
+  /{{ .Env.HOME }}/.nvm:
+    exists: true
+    owner: node
+    group: node
+    filetype: directory
+    skip: false
+  /{{ .Env.HOME }}/.nvm/versions/node/v{{ .Env.NODE_VERSION }}:
+    exists: true
+    owner: node
+    group: node
+    filetype: directory
+    skip: false
+  /{{ .Env.HOME }}/.nvm/alias/default:
+    exists: true
+    owner: node
+    group: node
+    filetype: file
+    contains: [/^{{ .Env.NODE_VERSION }}$/]
+    skip: false
+  /usr/local/bin/entrypoint.sh:
+    exists: true
+    owner: node
+    group: node
+    filetype: file
+    skip: false
+
+process:
+  node:
+    running: true
+    skip: false
