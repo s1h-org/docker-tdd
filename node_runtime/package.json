@@ -1,0 +1,31 @@
+{
+  "name": "node_runtime",
+  "version": "12.18.0",
+  "description": "Wrapper package to enable fast development / test cycles",
+  "main": "index.js",
+  "config": {
+    "image": "s1hofmann/node-runtime"
+  },
+  "scripts": {
+    "test": "dgoss run -it $npm_package_config_image:$npm_package_version",
+    "build": "docker build -t $npm_package_config_image:$npm_package_version --build-arg NODE_VERSION=$npm_package_version .",
+    "start": "nodemon --watch Dockerfile --watch goss.yaml --exec \"npm run build && npm run test\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s1h-org/docker-tdd.git"
+  },
+  "keywords": [
+    "docker",
+    "tdd"
+  ],
+  "author": "Simon Hofmann <kontakt@s1h.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/s1h-org/docker-tdd/issues"
+  },
+  "homepage": "https://github.com/s1h-org/docker-tdd#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
